@@ -1,0 +1,32 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.link {
+  margin-left: 10px;
+  padding: 8px;
+  display: inline-block;
+}
+
+.form_letter {
+  background-color: #7FFFD4;
+  padding: 10px;
+  display: inline-block;
+}
+
+table tr td {
+  padding: 15px;
+}
+
+  .letter_line_one {
+    background-color: #7FFFD4;
+  }
+
+  .letter_line_two {
+    background-color: #AFEEEE;
+  }
+
+  th {
+    text-align: center;
+  }

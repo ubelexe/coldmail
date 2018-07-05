@@ -1,0 +1,27 @@
+= form_with model: @letter, local: true do |form|
+  - if @letter.errors.any?
+    #error_explanation
+      h2
+        = pluralize(@letter.errors.count, "error")
+        |  prohibited this letter from being saved:
+      ul
+        - @letter.errors.full_messages.each do |msg|
+          li= msg
+
+  p
+    = form.label :url_site
+    br
+    = form.text_field :url_site
+
+  p
+    = form.label :email
+    br
+    = form.text_field :email
+
+  p
+    = form.label :comment
+    br
+    = form.text_area :comment, rows: 8
+
+  p
+    = form.submit

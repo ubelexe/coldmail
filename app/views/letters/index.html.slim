@@ -1,0 +1,20 @@
+h1
+  strong Listing letters:
+.link
+  = link_to 'New letter', new_letter_path
+
+table
+  tr
+    th Url site
+    th email
+    th comment
+
+  - @letters.each do |letter|
+    tr class="#{cycle('letter_line_one', 'letter_line_two')}"
+      td = letter.url_site
+      td = letter.email
+      td = letter.comment
+      td = link_to 'Show', letter_path(letter)
+      td = link_to 'Edit', edit_letter_path(letter)
+      td = link_to 'Delete', letter_path(letter), method: :delete, data: {confirm: 'Are you sure?'}
+
