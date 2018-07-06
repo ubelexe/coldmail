@@ -5,7 +5,7 @@ class LettersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_letter
 
   def index
-    @letters = Letter.find_each
+    @letters = Letter.all
   end
 
   def show
