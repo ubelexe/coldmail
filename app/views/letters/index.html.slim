@@ -1,20 +1,25 @@
-h1
-  strong Listing letters:
+h1 = t(:letters_list)
+
+
 .link
-  = link_to 'New letter', new_letter_path
+  = link_to t(:new_letter), new_letter_path
 
-table
-  tr
-    th Url site
-    th email
-    th comment
 
-  - @letters.each do |letter|
-    tr class="#{cycle('letter_line_one', 'letter_line_two')}"
-      td = letter.url_site
-      td = letter.email
-      td = letter.comment
-      td = link_to 'Show', letter_path(letter)
-      td = link_to 'Edit', edit_letter_path(letter)
-      td = link_to 'Delete', letter_path(letter), method: :delete, data: {confirm: 'Are you sure?'}
 
+- @letters.each do |letter|
+  .flex-letters
+    div class="#{cycle('letter_line_one', 'letter_line_two')} >"
+      .flex-letters_in
+        .url_site
+          = letter.url_site
+        .email_letter
+          = letter.email
+        .comment
+          = letter.comment
+        flex_link_to
+          .show
+            = link_to t(:show), letter_path(letter)
+          .edit
+            = link_to t(:edit), edit_letter_path(letter)
+          .delete
+            = link_to t(:delete), letter_path(letter), method: :delete, data: {confirm: t(:are_you_sure)}

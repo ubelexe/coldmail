@@ -24,6 +24,9 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_attr (0.11.0)
+      activemodel (>= 3.0.2, < 6.0)
+      activesupport (>= 3.0.2, < 6.0)
     activejob (5.2.0)
       activesupport (= 5.2.0)
       globalid (>= 0.3.6)
@@ -85,9 +88,25 @@ GEM
       railties (>= 4.1.0, < 6.0)
       responders
       warden (~> 1.2.3)
+    dye (0.1.4)
     erubi (1.7.1)
     execjs (2.7.0)
     ffi (1.9.25)
+    flex (1.0.6)
+      dye (~> 0.1.4)
+      multi_json (>= 1.3.4)
+      progressbar (= 0.12.0)
+    flex-models (1.0.6)
+      active_attr (>= 0.6.0)
+      flex (= 1.0.6)
+      flex-scopes (= 1.0.6)
+    flex-rails (1.0.6)
+      flex (= 1.0.6)
+      flex-models (= 1.0.6)
+      prompter (~> 0.1.5)
+      rails (>= 2.0)
+    flex-scopes (1.0.6)
+      flex (= 1.0.6)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     i18n (1.0.1)
@@ -119,6 +138,10 @@ GEM
       mini_portile2 (~> 2.3.0)
     orm_adapter (0.5.0)
     pg (1.0.0)
+    progressbar (0.12.0)
+    prompter (0.1.6)
+      dye (>= 0.1.1)
+      yard (>= 0.6.3)
     public_suffix (3.0.2)
     puma (3.11.4)
     rack (2.0.5)
@@ -171,6 +194,9 @@ GEM
     selenium-webdriver (3.13.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2)
+    simple_form (4.0.1)
+      actionpack (>= 5.0)
+      activemodel (>= 5.0)
     slim (3.0.9)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 1.3.3, < 2.1)
@@ -206,6 +232,7 @@ GEM
     websocket-extensions (0.1.3)
     xpath (3.1.0)
       nokogiri (~> 1.8)
+    yard (0.9.14)
 
 PLATFORMS
   ruby
@@ -219,6 +246,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   coffee-script
   devise
+  flex-rails
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   pg
@@ -226,6 +254,7 @@ DEPENDENCIES
   rails (~> 5.2.0)
   sass-rails (~> 5.0)
   selenium-webdriver
+  simple_form
   slim
   spring
   spring-watcher-listen (~> 2.0.0)

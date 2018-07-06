@@ -1,7 +1,6 @@
 doctype html
 html
   head
-    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
     title Coldmail
     = csrf_meta_tags
     = csp_meta_tag
@@ -11,14 +10,11 @@ html
     header.navbar.navbar-fixed-top.navbar-inverse
       .navbar-inner
         .container
-          = link_to "Coldmail", root_path, id: "logo"
+          = link_to "Coldmail", letters_path, id: "logo"
           nav
             ul.nav.pull-right
-              li= link_to "Home", letters_path
-              li= link_to "Help",    '#'
-              li= link_to "Sign in", '#'
+              li= link_to t(:home), letters_path
+              li= link_to t(:help),    '#'
+              li= link_to t(:sign_in), '#'
     .container
       = yield
-
-
-

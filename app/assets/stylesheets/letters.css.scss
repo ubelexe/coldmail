@@ -1,32 +1,90 @@
-// Place all the styles related to the users controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "bootstrap";
 
+/*error_message*/
+.errors_message {
+  color: red;
+}
 
 .link {
   margin-left: 10px;
+  margin-top: 15px;
   padding: 8px;
   display: inline-block;
+  background-color: #9c9c9c;
+  border-radius: 15px;
 }
 
-.form_letter {
-  background-color: #7FFFD4;
-  padding: 10px;
+/*Show_letter*/
+.show_letter {
+  display: flex;
+  flex-direction: column;
   display: inline-block;
+  background-color: #AFEEEE;
+  border-radius: 15px;
+  padding: 10px;
+  p {
+    font-weight: bold;
+    margin: auto;
+  }
 }
 
-table tr td {
-  padding: 15px;
+
+
+/*Edit_letter*/
+.invalid-feedback {
+  color: red;
 }
 
-  .letter_line_one {
-    background-color: #7FFFD4;
-  }
+/*letters_path*/
+.flex-letters {
+  display: flex;
+  padding: 5px;
+  flex-direction: column;
+}
 
-  .letter_line_two {
-    background-color: #AFEEEE;
-  }
+.letter_line_one {
+  background-color: #7FFFD4;
+  border-radius: 15px;
+}
 
-  th {
-    text-align: center;
-  }
+.letter_line_two {
+  background-color: #AFEEEE;
+  border-radius: 15px;
+}
+
+.flex-letters_in {
+  display: flex;
+  align-items: center;
+}
+
+.url_site {
+  word-wrap: break-word;
+  width: 30%;
+  margin-left: 10px;
+  padding: 10px;
+}
+
+.email_letter {
+  word-wrap: break-word;
+  width: 20%;
+  margin-left: 10px;
+  padding: 10px;
+}
+
+.comment {
+  text-align: justify;
+  width: 43%;
+  margin-left: 10px;
+  padding: 10px;
+}
+
+.flex_link_to {
+  display: flex;
+}
+
+.show , .edit, .delete {
+  padding: 2px;
+  font-size: 10px;
+}
+
+

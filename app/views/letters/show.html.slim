@@ -1,26 +1,23 @@
-h1 Letter
-.form_letter
-  p
-    strong Url site:
+h1 = t(:letter)
+
+.show_letter
+  .url_site_latter
+    p =t(:url_site)
     = @letter.url_site
-
-  p
-    strong Email:
+  .email_let
+    p =t(:email)
     = @letter.email
-
-  p
-    strong Comment:
+  .comment_latter
+    p =t(:comment)
     = @letter.comment
-
-  p
-    strong Create:
+  .created_at_latter
+    p =t(:created_at)
     = @letter.created_at
-
-  p
-    strong Update:
+  .updated_at_latter
+    p =t(:updated_at)
     = @letter.updated_at
-  .link
-    = link_to 'Back', letters_path
-  .link
-    = link_to 'Edit', edit_letter_path(@letter)
-
+br
+.link
+  = link_to t(:back), letters_path
+.link
+  = link_to t(:edit), edit_letter_path(@letter)

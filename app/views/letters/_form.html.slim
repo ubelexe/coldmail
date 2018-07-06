@@ -1,27 +1,5 @@
-= form_with model: @letter, local: true do |form|
-  - if @letter.errors.any?
-    #error_explanation
-      h2
-        = pluralize(@letter.errors.count, "error")
-        |  prohibited this letter from being saved:
-      ul
-        - @letter.errors.full_messages.each do |msg|
-          li= msg
-
-  p
-    = form.label :url_site
-    br
-    = form.text_field :url_site
-
-  p
-    = form.label :email
-    br
-    = form.text_field :email
-
-  p
-    = form.label :comment
-    br
-    = form.text_area :comment, rows: 8
-
-  p
-    = form.submit
+= simple_form_for @letter do |f|
+  = f.input :url_site, required: false, label: t(:url_site)
+  = f.input :email, required: false, label: t(:email)
+  = f.input :comment, input_html: { rows: 6 }, label: t(:comment)
+  = f.button :submit, t(:create)
