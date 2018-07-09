@@ -1,11 +1,16 @@
 class LettersController < ApplicationController
   before_action :set_letter, only: [ :show, :update, :edit, :destroy ]
-  before_action :new_letter, only: [ :new, :create ]
+  before_action :new_letter, only: [ :new, :create, :index]
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_letter
 
   def index
-    @letters = Letter.all
+    if params[:q].present?
+      @letters = Letter.where("email LIKE ?", "%#{params[:q]}%").or(Letter.where("url_site LIKE ?", "%#{params[:q]}%"))
+      flash[:notice] = "Letters not found" if @letters.empty?
+    else
+      @letters = Letter.all
+    end
   end
 
   def show

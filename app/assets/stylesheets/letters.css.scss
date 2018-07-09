@@ -14,6 +14,13 @@
   border-radius: 15px;
 }
 
+.flash_not_found {
+  position: absolute;
+  top: 35%;
+  left: 35%;
+  font-size: 25px;
+}
+
 /*Show_letter*/
 .show_letter {
   display: flex;
@@ -40,14 +47,8 @@
   flex-direction: column;
 }
 
-.letter_line_one {
+.letter_line {
   background-color: #7FFFD4;
-  border-radius: 15px;
-}
-
-.letter_line_two {
-  background-color: #AFEEEE;
-  border-radius: 15px;
 }
 
 .flex-letters_in {
