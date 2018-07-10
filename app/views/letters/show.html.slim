@@ -16,6 +16,8 @@ h1 = t(:letter)
   .updated_at_latter
     p =t(:updated_at)
     = @letter.updated_at
+    p Status:
+    = @letter.aasm_state
 br
 .link
   = link_to t(:back), letters_path

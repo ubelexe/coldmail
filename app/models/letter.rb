@@ -19,6 +19,5 @@ class Letter < ApplicationRecord
     event :sleep do
       transitions :from => :running, :to => :sleeping
     end
-
   end
 end
