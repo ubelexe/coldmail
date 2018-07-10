@@ -46,7 +46,7 @@ class LettersController < ApplicationController
   private
 
   def letter_params
-    params[:letter].present? ? params.require(:letter).permit(:url_site, :email, :comment) : {}
+    params[:letter].present? ? params.require(:letter).permit(:url_site, :email, :comment, :aasm_state) : {}
   end
 
   def set_letter
