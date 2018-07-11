@@ -7,7 +7,7 @@ class LettersController < ApplicationController
   def index
     @letters = Letter.all
     @letters = @letters.search_by_fields(params[:q]) if params[:q].present?
-    flash[:notice] = "Letters not found" if @letters.empty?
+    flash[:notice] = t(:letters_not_found) if @letters.empty?
   end
 
   def show
