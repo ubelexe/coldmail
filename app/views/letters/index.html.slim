@@ -13,7 +13,7 @@ h1 = t(:letters_list)
           = letter.email
         .comment
           = letter.comment
-        .aasm_state
+        .aasm_status
           = letter.aasm_state
         flex_link_to
           .show
@@ -25,6 +25,3 @@ h1 = t(:letters_list)
 
 .flash_not_found
   = flash[:notice]
-
-
-

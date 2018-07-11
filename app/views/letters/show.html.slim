@@ -21,5 +21,6 @@ h1 = t(:letter)
 br
 .link
   = link_to t(:back), letters_path
-.link
-  = link_to t(:edit), edit_letter_path(@letter)
+- if @letter.aasm_state != 'completed'
+  .link
+    = link_to t(:edit), edit_letter_path(@letter)

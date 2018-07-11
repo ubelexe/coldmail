@@ -32,7 +32,7 @@
 en:
   hello: "Hello world"
   letters_list: "Letters list"
-  new_letter: "New letter"
+  new_letter: "New"
   show: "Show"
   edit: "Edit"
   delete: "Delete"
@@ -42,7 +42,6 @@ en:
   help: "Help"
   sign_in: "Sign in"
   are_you_sure: "Are you sure?"
-  new_letter: "New letter:"
   back: "Back"
   url_site: "Url site:"
   email: "Email:"
