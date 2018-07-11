@@ -1,0 +1,23 @@
+h1 = t(:letter)
+
+.show_letter
+  .url_site_latter
+    p =t(:url_site)
+    = @letter.url_site
+  .email_let
+    p =t(:email)
+    = @letter.email
+  .comment_latter
+    p =t(:comment)
+    = @letter.comment
+  .created_at_latter
+    p =t(:created_at)
+    = @letter.created_at
+  .updated_at_latter
+    p =t(:updated_at)
+    = @letter.updated_at
+br
+.link
+  = link_to t(:back), letters_path
+.link
+  = link_to t(:edit), edit_letter_path(@letter)

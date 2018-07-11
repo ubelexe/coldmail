@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    title Coldmail
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+  body class="#{controller.controller_name}"
+    header.navbar.navbar-fixed-top.navbar-inverse
+      .navbar-inner
+        .container
+          = link_to "Coldmail", letters_path, id: "logo"
+          nav
+            ul.nav.pull-right
+              li= link_to t(:home), letters_path
+              li= link_to t(:help), '#'
+              li= link_to t(:sign_in), '#'
+    .container
+      = yield
