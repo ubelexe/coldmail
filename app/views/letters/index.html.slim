@@ -1,14 +1,11 @@
 h1 = t(:letters_list)
 
-
 .link
   = link_to t(:new_letter), new_letter_path
 
-
-
-- @letters.find_each.each do |letter|
+- @letters.find_each do |letter|
   .flex-letters
-    div class="#{cycle('letter_line_one', 'letter_line_two')} >"
+    .letter_line
       .flex-letters_in
         .url_site
           = letter.url_site
@@ -23,3 +20,6 @@ h1 = t(:letters_list)
             = link_to t(:edit), edit_letter_path(letter)
           .delete
             = link_to t(:delete), letter_path(letter), method: :delete, data: {confirm: t(:are_you_sure)}
+
+.flash_not_found
+  = flash[:notice]

@@ -50,3 +50,6 @@ en:
   updated_at: "Updated at:"
   letter: "Letter"
   editing_letter: "Editing letter:"
+  search_email_url: "Enter email or url site:"
+  search: "Search"
+  letters_not_found: "Letters not found"

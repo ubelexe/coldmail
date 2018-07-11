@@ -11,6 +11,10 @@ html
       .navbar-inner
         .container
           = link_to "Coldmail", letters_path, id: "logo"
+          .search-form.pull-right
+            = form_tag(letters_path, method: :get) do
+              = text_field_tag(:q, nil, { maxlength: 30, placeholder: t(:search_email_url) })
+              = submit_tag t(:search)
           nav
             ul.nav.pull-right
               li= link_to t(:home), letters_path

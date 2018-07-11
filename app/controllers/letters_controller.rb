@@ -1,11 +1,13 @@
 class LettersController < ApplicationController
   before_action :set_letter, only: [ :show, :update, :edit, :destroy ]
-  before_action :new_letter, only: [ :new, :create ]
+  before_action :new_letter, only: [ :new, :create, :index]
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_letter
 
   def index
     @letters = Letter.all
+    @letters = @letters.search_by_fields(params[:q]) if params[:q].present?
+    flash[:notice] = t(:letters_not_found) if @letters.empty?
   end
 
   def show
