@@ -59,6 +59,9 @@ class LettersController < ApplicationController
     redirect_to letter_path(@letter)
   end
 
+  def bootstrap
+  end
+
   private
 
   def letter_params

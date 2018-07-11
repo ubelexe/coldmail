@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  match 'bootstrap', to: 'letters#bootstrap', via: 'get'
   resources :letters do
     member do
       get :running

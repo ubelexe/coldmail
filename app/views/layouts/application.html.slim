@@ -7,18 +7,21 @@ html
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
   body class="#{controller.controller_name}"
-    header.navbar.navbar-fixed-top.navbar-inverse
-      .navbar-inner
-        .container
-          = link_to "Coldmail", letters_path, id: "logo"
-          .search-form.pull-right
-            = form_tag(letters_path, method: :get) do
-              = text_field_tag(:q, nil, { maxlength: 30, placeholder: t(:search_email_url) })
-              = submit_tag t(:search)
-          nav
-            ul.nav.pull-right
-              li= link_to t(:home), letters_path
-              li= link_to t(:help), '#'
-              li= link_to t(:sign_in), '#'
+    header.navbar.navbar-expand-md.navbar-dark.fixed-top.bg-dark
+      .navbar-brand = link_to "Coldmail", letters_path, class: "logo"
+      .navbarCollapse.collapse.navbar-collapse
+        ul.navbar-nav.mr-auto
+          li.nav-item.active
+            = link_to t(:home), letters_path, class: "nav-link"
+          li.nav-item
+            = link_to t(:help), '#', class: "nav-link"
+          li.nav-item
+            li= link_to t(:sign_in), '#', class: "nav-link"
+        form.form-inline.mt-2.mt-md-0
+          input.form-control.mr-sm-2[type="text" placeholder="Search" aria-label="Search"]
+          button.btn.btn-outline-success.my-2.my-sm-0[type="submit"]
+            | Search
+
+
     .container
       = yield
