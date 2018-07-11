@@ -3,7 +3,6 @@ class LettersController < ApplicationController
   before_action :new_letter, only: [ :new, :create ]
   before_action :aasm_transitions, only: [ :edit, :completed, :sleeping, :running ]
 
-
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_letter
 
   def index
