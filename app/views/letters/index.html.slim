@@ -13,6 +13,8 @@ h1 = t(:letters_list)
           = letter.email
         .comment
           = letter.comment
+        .aasm_status
+          = letter.aasm_state
         flex_link_to
           .show
             = link_to t(:show), letter_path(letter)
