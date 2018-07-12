@@ -13,15 +13,29 @@ html
         ul.navbar-nav.mr-auto
           li.nav-item.active
             = link_to t(:home), letters_path, class: "nav-link"
-          li.nav-item
-            = link_to t(:help), '#', class: "nav-link"
-          li.nav-item
-            li= link_to t(:sign_in), '#', class: "nav-link"
+
+          - if user_signed_in?
+            li.nav-item
+              = link_to current_user.email, edit_user_registration_path, class: 'nav-link'
+            li.nav-item
+              = link_to "Logout", destroy_user_session_path, method: :delete, class: 'nav-link'
+          - else
+            li.nav-item
+              = link_to t(:login), new_user_session_path, class: "nav-link"
+            li.nav-item
+              = link_to t(:sign_up), new_user_registration_path, class: "nav-link"
+
         .form-inline.mt-2.mt-md-0
           = form_tag(letters_path, method: :get) do
             = text_field_tag(:q, nil, { maxlength: 30, placeholder: t(:search_email_url) })
             = submit_tag t(:search)
     .container
+      - if notice
+        p.alert.alert-success
+          = notice
+      - if alert
+        p.alert.alert-danger
+          = alert
       = yield
   footer.footer
     .container

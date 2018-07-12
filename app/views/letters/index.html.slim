@@ -16,5 +16,3 @@ h1 = t(:letters_list)
           .letter_button = link_to t(:show), letter_path(letter), class: "link_to"
           .letter_button = link_to t(:edit), edit_letter_path(letter), class: "link_to"
           .letter_button = link_to t(:delete), letter_path(letter), method: :delete, data: {confirm: t(:are_you_sure)}, class: "link_to"
-.flash_not_found
-  = flash[:notice]

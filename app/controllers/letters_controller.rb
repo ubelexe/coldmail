@@ -2,6 +2,7 @@ class LettersController < ApplicationController
   before_action :set_letter, only: [ :show, :update, :edit, :destroy, :completed, :running, :sleeping ]
   before_action :new_letter, only: [ :new, :create ]
   before_action :aasm_transitions, only: [ :edit, :completed, :sleeping, :running ]
+  before_action :authenticate_user!
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_letter
 
