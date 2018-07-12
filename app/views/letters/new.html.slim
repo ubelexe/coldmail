@@ -1,5 +1,5 @@
 h1
   strong = t(:new_letter)
-.link
-  = link_to t(:back), letters_path
+.link_to_button
+  = link_to t(:back), letters_path, class: "link_to"
 = render 'form'
