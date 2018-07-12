@@ -1,27 +1,20 @@
 h1 = t(:letters_list)
-
-.link
-  = link_to t(:new_letter), new_letter_path
+.link_to_button
+  = link_to t(:new_letter), new_letter_path, class: "link_to"
 
 - @letters.find_each do |letter|
-  .flex-letters
-    .letter_line
+  .letter_line
+    .flex-letters
       .flex-letters_in
-        .url_site
-          = letter.url_site
-        .email_letter
-          = letter.email
-        .comment
-          = letter.comment
-        .aasm_status
-          = letter.aasm_state
-        flex_link_to
-          .show
-            = link_to t(:show), letter_path(letter)
-          .edit
-            = link_to t(:edit), edit_letter_path(letter)
-          .delete
-            = link_to t(:delete), letter_path(letter), method: :delete, data: {confirm: t(:are_you_sure)}
-
+        .url_site = letter.url_site
+        .email_letter = letter.email
+        .comment = letter.comment
+        .aasm_status = letter.aasm_state
+    .container
+      .row
+        .col-md-6.offset-md-6
+          .letter_button = link_to t(:show), letter_path(letter), class: "link_to"
+          .letter_button = link_to t(:edit), edit_letter_path(letter), class: "link_to"
+          .letter_button = link_to t(:delete), letter_path(letter), method: :delete, data: {confirm: t(:are_you_sure)}, class: "link_to"
 .flash_not_found
   = flash[:notice]

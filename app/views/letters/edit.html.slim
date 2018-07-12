@@ -1,6 +1,6 @@
-h1= t(:editing_letter)
-.link
-  = link_to t(:back), letters_path
-- (@letter.aasm.states(:permitted => true).map(&:name)).each do |state|
-  .aasm_state= link_to state, send([state, '_letter_path'].join)
+h1 = t(:editing_letter)
+.link_to_button
+  = link_to t(:back), letters_path, class: "link_to"
+- @aasm_state.each do |state|
+  .link_to_button = link_to state, send([state, '_letter_path'].join), class: "link_to"
 = render 'form'

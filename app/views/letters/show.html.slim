@@ -1,26 +1,34 @@
 h1 = t(:letter)
-
-.show_letter
-  .url_site_latter
-    p =t(:url_site)
-    = @letter.url_site
-  .email_let
-    p =t(:email)
-    = @letter.email
-  .comment_latter
-    p =t(:comment)
-    = @letter.comment
-  .created_at_latter
-    p =t(:created_at)
-    = @letter.created_at
-  .updated_at_latter
-    p =t(:updated_at)
-    = @letter.updated_at
-    p Status:
-    = @letter.aasm_state
-br
-.link
-  = link_to t(:back), letters_path
+.link_to_button
+  = link_to t(:back), letters_path, class: "link_to"
 - unless @letter.completed?
-  .link
-    = link_to t(:edit), edit_letter_path(@letter)
+  .link_to_button
+    = link_to t(:edit), edit_letter_path(@letter), class: "link_to"
+
+.container
+  .row
+    .col-md-1
+      p = t(:status)
+    .col = @letter.aasm_state
+  .row
+    .col-md-1
+      p = t(:url_site)
+    .col = @letter.url_site
+  .row
+    .col-md-1
+      p = t(:email)
+    .col = @letter.email
+  .row
+    .col-md-1
+      p = t(:comment)
+    .col = @letter.comment
+  .row
+    .col-md-1
+      p = t(:created_at)
+    .col = @letter.created_at
+  .row
+    .col-md-1
+      p = t(:updated_at)
+    .col = @letter.updated_at
+
+
