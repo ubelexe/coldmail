@@ -6,12 +6,9 @@ class LettersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_letter
 
   def index
-    if params[:q].present?
-      @letters = Letter.where("email LIKE ?", "%#{params[:q]}%").or(Letter.where("url_site LIKE ?", "%#{params[:q]}%"))
-      flash[:notice] = "Letters not found" if @letters.empty?
-    else
-      @letters = Letter.all
-    end
+    @letters = Letter.all
+    @letters = @letters.search_by_fields(params[:q]) if params[:q].present?
+    flash[:notice] = t(:letters_not_found) if @letters.empty?
   end
 
   def show
