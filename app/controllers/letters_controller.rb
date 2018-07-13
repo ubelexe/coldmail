@@ -39,8 +39,8 @@ class LettersController < ApplicationController
 
   def destroy
     if @letter.running?
-      redirect_to letter_path(@letter)
       flash[:notice] = t(:can_not_del)
+      redirect_to letter_path(@letter)
     else
       @letter.destroy
       redirect_to letters_path

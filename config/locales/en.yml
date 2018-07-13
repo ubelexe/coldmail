@@ -57,3 +57,4 @@ en:
   back_to_top: "Back to top"
   current_status: "Current status: "
   can_not_del: "Cannot delete! Letter status: running!"
+  logout: "Logout"
