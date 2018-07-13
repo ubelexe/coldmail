@@ -1,6 +1,7 @@
 class Letter < ApplicationRecord
   include AASM
   validates :url_site, :email, presence: true
+  belongs_to :user
 
   scope :search_by_fields, ->(q_string) { where("email LIKE :q OR url_site LIKE :q", q: "%#{q_string}%") }
 
