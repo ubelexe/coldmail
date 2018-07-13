@@ -62,6 +62,11 @@ class LettersController < ApplicationController
     redirect_to letter_path(@letter)
   end
 
+  def email
+    @letters = Letter.all
+    byebug
+  end
+
   private
 
   def letter_params

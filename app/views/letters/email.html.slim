@@ -1,0 +1,10 @@
+-@letters.find_each do |letter|
+  p
+    |User email(login)
+    = letter.user.email if letter.user != nil
+  p
+    |Url_site
+    = letter.url_site
+  p
+    |Email
+    = letter.email
