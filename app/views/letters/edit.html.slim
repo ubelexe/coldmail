@@ -3,4 +3,8 @@ h1 = t(:editing_letter)
   = link_to t(:back), letters_path, class: "link_to"
 - @aasm_state.each do |state|
   .link_to_button = link_to state, send([state, '_letter_path'].join), class: "link_to"
+.letter_current_state
+  p
+    =t(:current_status)
+    = @letter.aasm_state
 = render 'form'

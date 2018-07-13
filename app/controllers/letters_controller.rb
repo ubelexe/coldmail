@@ -1,12 +1,13 @@
 class LettersController < ApplicationController
   before_action :set_letter, only: [ :show, :update, :edit, :destroy, :completed, :running, :sleeping ]
   before_action :new_letter, only: [ :new, :create ]
-  before_action :aasm_transitions, only: [ :edit, :completed, :sleeping, :running ]
+  before_action :aasm_transitions, only: [ :edit, :update, :completed, :sleeping, :running ]
+  before_action :authenticate_user!
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_letter
 
   def index
-    @letters = Letter.all
+    @letters = current_user.letters
     @letters = @letters.search_by_fields(params[:q]) if params[:q].present?
     flash[:notice] = t(:letters_not_found) if @letters.empty?
   end
@@ -37,8 +38,13 @@ class LettersController < ApplicationController
   end
 
   def destroy
-    @letter.destroy
-    redirect_to letters_path
+    if @letter.running?
+      flash[:notice] = t(:can_not_del)
+      redirect_to letter_path(@letter)
+    else
+      @letter.destroy
+      redirect_to letters_path
+    end
   end
 
   def completed
@@ -63,11 +69,11 @@ class LettersController < ApplicationController
   end
 
   def set_letter
-    @letter = Letter.find(params[:id])
+    @letter = current_user.letters.find(params[:id])
   end
 
   def new_letter
-    @letter = Letter.new(letter_params)
+    @letter = current_user.letters.build(letter_params)
   end
 
   def invalid_letter
