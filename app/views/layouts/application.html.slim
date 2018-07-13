@@ -11,9 +11,9 @@ html
       .navbar-brand = link_to "Coldmail", letters_path, class: "logo"
       .navbarCollapse.collapse.navbar-collapse
         form.form-inline.mt-2.mt-md-0[action = "/letters/email", method = "get"]
-          input.form-control.mr-sm-2[type="text" name="q" placeholder="Search" aria-label="Search"]
+          input.form-control.mr-sm-2[type="text" name="q" placeholder="#{t(:check_emails)}"]
           button.btn.btn-outline-success.my-2.my-sm-0[type="submit"]
-            | Search
+            = t(:search)
         ul.navbar-nav.ml-auto
           li.nav-item.active
             = link_to t(:home), letters_path, class: "nav-link"
@@ -29,7 +29,7 @@ html
             li.nav-item
               = link_to t(:sign_up), new_user_registration_path, class: "nav-link"
         form.form-inline.mt-2.mt-md-0[action = "/letters", method = "get"]
-          input.form-control.mr-sm-2[type="text" name="q" placeholder="#{t(:search_email_url)}" aria-label="Search"]
+          input.form-control.mr-sm-2[type="text" name="q" placeholder="#{t(:search_email_url)}"]
           button.btn.btn-outline-success.my-2.my-sm-0[type="submit"]
             = t(:search)
     .container
@@ -42,6 +42,6 @@ html
       = yield
   footer.footer
     .container
-      span.text-muted © 2017-2018 Company, Inc. ·
+      span.text-muted © 2018 Company
       p.float-right
         a = link_to t(:back_to_top), '#'

@@ -30,6 +30,16 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  time:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%Y-%m-%d"
+      short: "%b %d"
+      long: "%B %d, %Y"
+      yymmdd: "%F"
+
   hello: "Hello world"
   letters_list: "Letters list"
   new_letter: "New"
@@ -58,3 +68,4 @@ en:
   current_status: "Current status: "
   can_not_del: "Cannot delete! Letter status: running!"
   logout: "Logout"
+  check_emails: "Enter email for check"

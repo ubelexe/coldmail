@@ -64,7 +64,7 @@ class LettersController < ApplicationController
 
   def email
     @letters = Letter.all
-    byebug
+    @letters = @letters.search_emails(params[:q])
   end
 
   private
