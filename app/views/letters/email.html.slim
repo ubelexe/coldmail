@@ -1,0 +1,22 @@
+.container
+  .row
+      .col-md-3
+        .row
+          .col-md-2 User:
+          .col-md-10
+            = @letter.user.email
+      .col-md-3
+        .row
+          .col-md-2 Email:
+          .col-md-10
+            = @letter.email
+      .col-md-3
+        .row
+          .col-md-4 Create_at:
+          .col-md-8
+            = l(@letter.created_at, format: :yymmdd)
+      .col-md-3
+        .row
+          .col-md-3 Status:
+          .col-md-9
+            = @letter.aasm_state

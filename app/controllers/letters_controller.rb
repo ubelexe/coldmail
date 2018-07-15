@@ -62,6 +62,10 @@ class LettersController < ApplicationController
     redirect_to letter_path(@letter)
   end
 
+  def email
+    @letter = Letter.all.find_by(email: params[:q])
+  end
+
   private
 
   def letter_params
