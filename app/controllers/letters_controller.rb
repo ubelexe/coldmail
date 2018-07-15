@@ -63,8 +63,7 @@ class LettersController < ApplicationController
   end
 
   def email
-    @letters = Letter.all
-    @letters = @letters.search_emails(params[:q])
+    @letter = Letter.all.find_by(email: params[:q])
   end
 
   private

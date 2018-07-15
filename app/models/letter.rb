@@ -4,7 +4,6 @@ class Letter < ApplicationRecord
   belongs_to :user
 
   scope :search_by_fields, ->(q_string) { where("email LIKE :q OR url_site LIKE :q", q: "%#{q_string}%") }
-  scope :search_emails, ->(email) { where("email LIKE ?", "%#{email}%") }
 
   aasm do
     state :new, initial: true
