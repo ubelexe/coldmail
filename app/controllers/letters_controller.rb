@@ -8,7 +8,21 @@ class LettersController < ApplicationController
 
   def index
     @letters = current_user.letters
+
     @letters = @letters.search_by_fields(params[:q]) if params[:q].present?
+
+    @letters = @letters.where(aasm_state: params[:aasm_state]) if params[:aasm_state].present?
+
+    if params[:date].present?
+      @letters = @letters.where(created_at: (params[:date][:start_date]..params[:date][:end_date])) if params[:date][:start_date].present? && params[:date][:end_date].present? #.all? {|k,v| v.present?}
+    end
+
+    ord = params[:sort].nil? || params[:sort] == "asc" ? :asc : :desc
+    @letters = @letters.order(created_at: ord) if params[:sort].present?
+    @ord_status = params[:sort] == "asc" ? :desc : :asc
+
+    @aasm_all_states = Letter.new.aasm.states.map(&:name)
+
     flash[:notice] = t(:letters_not_found) if @letters.empty?
   end
 

@@ -1,18 +1,52 @@
-h1 = t(:letters_list)
-.link_to_button
-  = link_to t(:new_letter), new_letter_path, class: "link_to"
+h1
+  = t(:letters_list)
+.container
+  .row
+    .col-md
+  .row
+    .col-md-1.link_to_button
+      = link_to t(:new_letter), new_letter_path, class: "link_to"
+    .col.offset-md-4
+      = form_tag(letters_path, method: :get, class: 'filter-row') do
+        = date_field(:date, :start_date)
+        = date_field(:date, :end_date)
+        = select_tag :aasm_state, options_for_select(@aasm_all_states), class: 'status_select'
+        .btn
+          = submit_tag t(:submit)
 
-- @letters.find_each do |letter|
-  .letter_line
-    .flex-letters
-      .flex-letters_in
-        .url_site = letter.url_site
-        .email_letter = letter.email
-        .comment = letter.comment
-        .aasm_status = letter.aasm_state
-    .container
-      .row
-        .col-md-6.offset-md-6
-          .letter_button = link_to t(:show), letter_path(letter), class: "link_to"
-          .letter_button = link_to t(:edit), edit_letter_path(letter), class: "link_to"
-          .letter_button = link_to t(:delete), letter_path(letter), method: :delete, data: {confirm: t(:are_you_sure)}, class: "link_to"
+.container
+  .row.columns_sig
+    .col-md-4
+      = t(:url_site)
+    .col-md-4
+      = t(:email)
+    .col-md-2
+      = link_to t(:created_at), letters_path(sort: @ord_status)
+    .col-md-2
+      = t(:status)
+
+- @letters.each do |letter|
+  .container.letter_line
+    .row
+      .col-md-4.url_site
+        = letter.url_site
+      .col-md-4.email_letter
+        = letter.email
+      .col-md-2.created_at
+        = l(letter.created_at, format: :yymmdd)
+      .col-md-2.aasm_status
+        = letter.aasm_state
+    .row.block
+      .col
+        = t(:comment)
+    .row
+      .col-md-8
+        = letter.comment
+      .col-md-4
+        .letter_button
+          = link_to t(:show), letter_path(letter), class: "link_to"
+        .letter_button
+          = link_to t(:edit), edit_letter_path(letter), class: "link_to"
+        .letter_button
+          = link_to t(:delete), letter_path(letter), method: :delete, data: {confirm: t(:are_you_sure)}, class: "link_to"
+

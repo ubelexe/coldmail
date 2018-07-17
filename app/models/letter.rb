@@ -1,7 +1,12 @@
 class Letter < ApplicationRecord
   include AASM
-  validates :url_site, :email, presence: true
+  before_save { self.email = email.downcase}
+
   belongs_to :user
+
+  validates :url_site, :email, presence: true
+  VALID_EMAIL_REGEX = /\A[\-\+\w.]+@([a-z\d][-a-z\d]*\.)+[a-z]{2,4}\z/i
+  validates :email, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false}
 
   scope :search_by_fields, ->(q_string) { where("email LIKE :q OR url_site LIKE :q", q: "%#{q_string}%") }
 

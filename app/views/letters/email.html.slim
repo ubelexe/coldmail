@@ -1,22 +1,26 @@
-.container
-  .row
-      .col-md-3
-        .row
-          .col-md-2 User:
-          .col-md-10
-            = @letter.user.email
-      .col-md-3
-        .row
-          .col-md-2 Email:
-          .col-md-10
-            = @letter.email
-      .col-md-3
-        .row
-          .col-md-4 Create_at:
-          .col-md-8
-            = l(@letter.created_at, format: :yymmdd)
-      .col-md-3
-        .row
-          .col-md-3 Status:
-          .col-md-9
-            = @letter.aasm_state
+.container.letter_check
+  - unless @letter.nil?
+    .row
+      .col-md-4
+        = t(:user_name)
+      .col-md-4
+        = t(:email)
+      .col-md-2
+        = t(:created_at)
+      .col-md-2
+        = t(:status)
+    .row
+      .col-md-4
+        = @letter.user.email
+      .col-md-4
+        = @letter.email
+      .col-md-2
+        = l(@letter.created_at, format: :yymmdd)
+      .col-md-2
+        = @letter.aasm_state
+  - else
+    .row
+      .col-md-4.offset-md-5
+        p
+          = t(:letters_not_found)
+

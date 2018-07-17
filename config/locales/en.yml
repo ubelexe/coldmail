@@ -56,8 +56,8 @@ en:
   url_site: "Url site:"
   email: "Email:"
   comment: "Comment:"
-  created_at: "Created:"
-  updated_at: "Updated:"
+  created_at: "Created at:"
+  updated_at: "Updated at:"
   letter: "Letter"
   editing_letter: "Editing letter:"
   search_email_url: "Enter email or url site:"
@@ -69,3 +69,5 @@ en:
   can_not_del: "Cannot delete! Letter status: running!"
   logout: "Logout"
   check_emails: "Enter email for check"
+  submit: "Submit"
+  user_name: 'User login:'
