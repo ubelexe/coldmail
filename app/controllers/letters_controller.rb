@@ -13,13 +13,12 @@ class LettersController < ApplicationController
     @monthly_letters = @letters.where(created_at: Time.now.beginning_of_month .. Time.now)
     @monthly_letters = @monthly_letters.group(:aasm_state).count
 
-
     @letters = @letters.search_by_fields(params[:q]) if params[:q].present?
     flash[:notice] = t(:letters_not_found) if @letters.empty?
 
     @letters = @letters.where(aasm_state: params[:aasm_state]) if params[:aasm_state].present?
-    if params[:date].present? && Hash[(params[:date].permit(:start_date, :end_date))].all? { |k,v| v.present? }
-#    if params[:date].present? && params[:date][:start_date].present? && params[:date][:end_date].present?
+
+    unless params[:date].try(:[], :start_date) && params[:date].try(:[], :end_date)
       @letters = @letters.where(created_at: (params[:date][:start_date]..params[:date][:end_date]))
     end
   end
