@@ -10,21 +10,18 @@ class LettersController < ApplicationController
   def index
     @letters = current_user.letters
 
-    month_stat = @letters.where(created_at: Time.now.beginning_of_month .. Time.now.end_of_month )
-    @letters_stat = []
-    @aasm_all_states.each { |state| @letters_stat << ([state, month_stat.where(aasm_state: state).count]) }
-    @letters_stat = @letters_stat.to_h
+    @monthly_letters = @letters.where(created_at: Time.now.beginning_of_month .. Time.now)
+    @monthly_letters = @monthly_letters.group(:aasm_state).count
+
 
     @letters = @letters.search_by_fields(params[:q]) if params[:q].present?
     flash[:notice] = t(:letters_not_found) if @letters.empty?
 
-    if params[:date].present?
-      @letters = @letters.where(created_at: (params[:date][:start_date]..params[:date][:end_date])) if params[:date][:start_date].present? && params[:date][:end_date].present? #.all? {|k,v| v.present?}
+    @letters = @letters.where(aasm_state: params[:aasm_state]) if params[:aasm_state].present?
+    if params[:date].present? && Hash[(params[:date].permit(:start_date, :end_date))].all? { |k,v| v.present? }
+#    if params[:date].present? && params[:date][:start_date].present? && params[:date][:end_date].present?
+      @letters = @letters.where(created_at: (params[:date][:start_date]..params[:date][:end_date]))
     end
-
-    ord = params[:sort].nil? || params[:sort] == "asc" ? :asc : :desc
-    @letters = @letters.order(created_at: ord) if params[:sort].present?
-    @ord_status = params[:sort] == "asc" ? :desc : :asc
   end
 
   def show
@@ -79,7 +76,6 @@ class LettersController < ApplicationController
 
   def email
     @letter = Letter.all.find_by(email: params[:q])
-    byebug
   end
 
   private

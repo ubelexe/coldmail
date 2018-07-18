@@ -1,6 +1,5 @@
 @import "bootstrap";
 
-/*error_message*/
 .errors_message {
   color: red;
 }
@@ -22,7 +21,6 @@
   }
 }
 
-/*index_page*/
 .status_select {
   padding-top: 4px;
   padding-bottom: 4px;
@@ -66,12 +64,10 @@
   padding-top: 15px;
 }
 
-/*editing_page*/
 .letter_current_state {
   float: right;
 }
 
-/*email_page*/
 .letter_check {
   border: solid;
   margin-top: 70px;

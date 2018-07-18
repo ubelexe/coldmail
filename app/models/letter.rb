@@ -1,6 +1,6 @@
 class Letter < ApplicationRecord
   include AASM
-  before_save { self.email = email.downcase}
+  before_save :save_email
 
   belongs_to :user
 
@@ -25,5 +25,9 @@ class Letter < ApplicationRecord
     event :sleep do
       transitions from: :running, to: :sleeping
     end
+  end
+
+  def save_email
+    self.email = email.downcase
   end
 end

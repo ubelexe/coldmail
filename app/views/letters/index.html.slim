@@ -21,7 +21,7 @@ h1
     .col-md-4
       = t(:email)
     .col-md-2
-      = link_to t(:created_at), letters_path(sort: @ord_status)
+      = t(:created_at)
     .col-md-2
       = t(:status)
 
@@ -54,9 +54,9 @@ h1
     .col-md-auto
       = Date.current.strftime("%B %d, %Y")
     .col.d-flex.justify-content-end
-      = t(:month_stat)
-      = t(:all) + @letters_stat.values.sum.to_s
-    - @letters_stat.each do |key,value|
+      = t(:month_statistics)
+      = t(:all) + @monthly_letters.values.sum.to_s
+    - @monthly_letters.each do |key,value|
       .col-md-auto.d-flex.justify-content-end
         = key.to_s + ': '
         = value
