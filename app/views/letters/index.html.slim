@@ -49,4 +49,14 @@ h1
           = link_to t(:edit), edit_letter_path(letter), class: "link_to"
         .letter_button
           = link_to t(:delete), letter_path(letter), method: :delete, data: {confirm: t(:are_you_sure)}, class: "link_to"
-
+.container
+  .row
+    .col-md-auto
+      = Date.current.strftime("%B %d, %Y")
+    .col.d-flex.justify-content-end
+      = t(:month_stat)
+      = t(:all) + @letters_stat.values.sum.to_s
+    - @letters_stat.each do |key,value|
+      .col-md-auto.d-flex.justify-content-end
+        = key.to_s + ': '
+        = value

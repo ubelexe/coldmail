@@ -2,6 +2,7 @@ class LettersController < ApplicationController
   before_action :set_letter, only: [ :show, :update, :edit, :destroy, :completed, :running, :sleeping ]
   before_action :new_letter, only: [ :new, :create ]
   before_action :aasm_transitions, only: [ :edit, :update, :completed, :sleeping, :running ]
+  before_action :aasm_states, only: [:index]
   before_action :authenticate_user!
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_letter
@@ -9,9 +10,13 @@ class LettersController < ApplicationController
   def index
     @letters = current_user.letters
 
-    @letters = @letters.search_by_fields(params[:q]) if params[:q].present?
+    month_stat = @letters.where(created_at: Time.now.beginning_of_month .. Time.now.end_of_month )
+    @letters_stat = []
+    @aasm_all_states.each { |state| @letters_stat << ([state, month_stat.where(aasm_state: state).count]) }
+    @letters_stat = @letters_stat.to_h
 
-    @letters = @letters.where(aasm_state: params[:aasm_state]) if params[:aasm_state].present?
+    @letters = @letters.search_by_fields(params[:q]) if params[:q].present?
+    flash[:notice] = t(:letters_not_found) if @letters.empty?
 
     if params[:date].present?
       @letters = @letters.where(created_at: (params[:date][:start_date]..params[:date][:end_date])) if params[:date][:start_date].present? && params[:date][:end_date].present? #.all? {|k,v| v.present?}
@@ -20,10 +25,6 @@ class LettersController < ApplicationController
     ord = params[:sort].nil? || params[:sort] == "asc" ? :asc : :desc
     @letters = @letters.order(created_at: ord) if params[:sort].present?
     @ord_status = params[:sort] == "asc" ? :desc : :asc
-
-    @aasm_all_states = Letter.new.aasm.states.map(&:name)
-
-    flash[:notice] = t(:letters_not_found) if @letters.empty?
   end
 
   def show
@@ -78,6 +79,7 @@ class LettersController < ApplicationController
 
   def email
     @letter = Letter.all.find_by(email: params[:q])
+    byebug
   end
 
   private
@@ -101,5 +103,9 @@ class LettersController < ApplicationController
 
   def aasm_transitions
     @aasm_state = @letter.aasm.states(:permitted => true).map(&:name)
+  end
+
+  def aasm_states
+    @aasm_all_states = Letter.new.aasm.states.map(&:name)
   end
 end
