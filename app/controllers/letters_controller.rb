@@ -2,14 +2,25 @@ class LettersController < ApplicationController
   before_action :set_letter, only: [ :show, :update, :edit, :destroy, :completed, :running, :sleeping ]
   before_action :new_letter, only: [ :new, :create ]
   before_action :aasm_transitions, only: [ :edit, :update, :completed, :sleeping, :running ]
+  before_action :aasm_states, only: [:index]
   before_action :authenticate_user!
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_letter
 
   def index
     @letters = current_user.letters
+
+    @monthly_letters = @letters.where(created_at: Time.now.beginning_of_month .. Time.now)
+    @monthly_letters = @monthly_letters.group(:aasm_state).count
+
     @letters = @letters.search_by_fields(params[:q]) if params[:q].present?
     flash[:notice] = t(:letters_not_found) if @letters.empty?
+
+    @letters = @letters.where(aasm_state: params[:aasm_state]) if params[:aasm_state].present?
+
+    unless params[:date].try(:[], :start_date) && params[:date].try(:[], :end_date)
+      @letters = @letters.where(created_at: (params[:date][:start_date]..params[:date][:end_date]))
+    end
   end
 
   def show
@@ -87,5 +98,9 @@ class LettersController < ApplicationController
 
   def aasm_transitions
     @aasm_state = @letter.aasm.states(:permitted => true).map(&:name)
+  end
+
+  def aasm_states
+    @aasm_all_states = Letter.new.aasm.states.map(&:name)
   end
 end
