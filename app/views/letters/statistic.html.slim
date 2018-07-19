@@ -1,25 +1,22 @@
 h1
   = t(:statistic_page)
-
 .container
   .row
-    .col-md-2.offset-md-2
+    .col-md-2.offset-md-2.months_line
+      = Time.now.strftime("%Y")
     - @date_range.each do |date|
-      .col-md-1
-        = date
-
+      .col-md-1.months_line
+        = date.to_date.strftime("%B")
   .row
     .col-md-2.offset-md-2
-      - @states.each do |state|
+      - @aasm_states.each do |state|
         = state
         br
-
     - @date_range.each do |date|
       .col-md-1
-        - @states.each do |state|
+        - @aasm_states.each do |state|
           = (@half_year_letters[date] || Hash.new(0))[state]
           br
-
   .row
     .col-md-2.offset-md-2.total_line
       |total

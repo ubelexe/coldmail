@@ -78,8 +78,7 @@ class LettersController < ApplicationController
   end
 
   def statistic
-    @date_range = (0..5).to_a.reverse.map { |m| Time.now.months_ago(m).strftime("%Y,%m") }
-    @states = @aasm_all_states.map {|i| i.to_s}
+    @date_range = 5.downto(0).map { |n| Time.now.months_ago(n).strftime("%Y/%m") }
   end
 
   private
@@ -110,12 +109,12 @@ class LettersController < ApplicationController
   end
 
   def aasm_states
-    @aasm_all_states = Letter.new.aasm.states.map(&:name)
+    @aasm_states = Letter.new.aasm.states.map(&:name).map { |i| i.to_s }
   end
 
   def half_year_statistic
-    @letters = @letters.where(created_at: Time.now.months_ago(5) .. Time.now)
-    sql = "TO_CHAR(created_at::timestamp, 'YYYY,MM')"
+    @letters = @letters.where('created_at > ?', 5.months.ago.beginning_of_month)
+    sql = "TO_CHAR(created_at::timestamp, 'YYYY/MM')"
     @half_year_letters = @letters.group(sql, :aasm_state).count.inject({}) do |accum, hash|
       hash_date = hash[0][0]
       accum[hash_date] ||= Hash.new(0)
