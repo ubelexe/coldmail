@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   resources :letters do
     get 'email', on: :collection
+    get 'statistic', on: :collection
     member do
       get :running
       get :sleeping

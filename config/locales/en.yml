@@ -73,3 +73,6 @@ en:
   user_name: 'User login:'
   month_statistics: "Monthly statistics: "
   all: "all:  "
+  statistic_page: "Statistic letters page"
+  email_check_page: "Email check page"
+  statistic: "Statistic"
