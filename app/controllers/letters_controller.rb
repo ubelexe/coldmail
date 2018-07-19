@@ -78,7 +78,7 @@ class LettersController < ApplicationController
   end
 
   def statistic
-    @date_range = 5.downto(0).map { |n| Time.now.months_ago(n).strftime("%Y/%m") }
+    @date_range = 5.downto(0).map { |num| l(Time.now.months_ago(num), format: :yyyymm) }
   end
 
   private
@@ -109,7 +109,7 @@ class LettersController < ApplicationController
   end
 
   def aasm_states
-    @aasm_states = Letter.new.aasm.states.map(&:name).map { |i| i.to_s }
+    @aasm_states = Letter.new.aasm.states.map(&:name).map { |aasm_state| aasm_state.to_s }
   end
 
   def half_year_statistic

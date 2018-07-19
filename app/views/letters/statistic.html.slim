@@ -3,7 +3,7 @@ h1
 .container
   .row
     .col-md-2.offset-md-2.months_line
-      = Time.now.strftime("%Y")
+      = l(Time.now, format: :yyyy)
     - @date_range.each do |date|
       .col-md-1.months_line
         = date.to_date.strftime("%B")
@@ -19,7 +19,7 @@ h1
           br
   .row
     .col-md-2.offset-md-2.total_line
-      |total
+      = t(:total)
     - @date_range.each do |date|
       .col-md-1.total_line
         = (@half_year_letters[date] || Hash.new(0)).values.sum
