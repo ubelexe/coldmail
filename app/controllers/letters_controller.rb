@@ -1,15 +1,15 @@
 class LettersController < ApplicationController
-  before_action :set_letter, only: [ :show, :update, :edit, :destroy, :completed, :running, :sleeping ]
-  before_action :new_letter, only: [ :new, :create ]
-  before_action :aasm_transitions, only: [ :edit, :update, :completed, :sleeping, :running ]
-  before_action :aasm_states, only: [:index]
+  before_action :user_letters, only: [:index, :statistic]
+  before_action :set_letter, only: [:show, :update, :edit, :destroy, :completed, :running, :sleeping]
+  before_action :new_letter, only: [:new, :create]
+  before_action :aasm_transitions, only: [:edit, :update, :completed, :sleeping, :running]
+  before_action :aasm_states, only: [:index, :statistic]
+  before_action :half_year_statistic, only: [:statistic]
   before_action :authenticate_user!
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_letter
 
   def index
-    @letters = current_user.letters
-
     @monthly_letters = @letters.where(created_at: Time.now.beginning_of_month .. Time.now)
     @monthly_letters = @monthly_letters.group(:aasm_state).count
 
@@ -18,7 +18,7 @@ class LettersController < ApplicationController
 
     @letters = @letters.where(aasm_state: params[:aasm_state]) if params[:aasm_state].present?
 
-    unless params[:date].try(:[], :start_date) && params[:date].try(:[], :end_date)
+    if params[:date].try(:[], :start_date).present? && params[:date].try(:[], :end_date).present?
       @letters = @letters.where(created_at: (params[:date][:start_date]..params[:date][:end_date]))
     end
   end
@@ -77,6 +77,10 @@ class LettersController < ApplicationController
     @letter = Letter.all.find_by(email: params[:q])
   end
 
+  def statistic
+    @date_range = 5.downto(0).map { |num| l(Time.now.months_ago(num), format: :yyyymm) }
+  end
+
   private
 
   def letter_params
@@ -96,11 +100,26 @@ class LettersController < ApplicationController
     redirect_to letters_path
   end
 
+  def user_letters
+    @letters = current_user.letters
+  end
+
   def aasm_transitions
     @aasm_state = @letter.aasm.states(:permitted => true).map(&:name)
   end
 
   def aasm_states
-    @aasm_all_states = Letter.new.aasm.states.map(&:name)
+    @aasm_states = Letter.new.aasm.states.map(&:name).map { |aasm_state| aasm_state.to_s }
+  end
+
+  def half_year_statistic
+    @letters = @letters.where('created_at > ?', 5.months.ago.beginning_of_month)
+    sql = "TO_CHAR(created_at::timestamp, 'YYYY/MM')"
+    @half_year_letters = @letters.group(sql, :aasm_state).count.inject({}) do |accum, hash|
+      hash_date = hash[0][0]
+      accum[hash_date] ||= Hash.new(0)
+      accum[hash_date].merge!(hash[0][1] => hash[1])
+      accum
+    end
   end
 end

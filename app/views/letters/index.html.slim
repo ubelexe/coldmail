@@ -10,7 +10,7 @@ h1
       = form_tag(letters_path, method: :get, class: 'filter-row') do
         = date_field(:date, :start_date)
         = date_field(:date, :end_date)
-        = select_tag :aasm_state, options_for_select(@aasm_all_states), class: 'status_select'
+        = select_tag :aasm_state, options_for_select(@aasm_states.insert(0, '')), class: 'status_select'
         .btn
           = submit_tag t(:submit)
 

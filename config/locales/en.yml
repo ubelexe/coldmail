@@ -39,6 +39,8 @@ en:
       short: "%b %d"
       long: "%B %d, %Y"
       yymmdd: "%F"
+      yyyymm: "%Y/%m"
+      yyyy: "%Y"
 
   hello: "Hello world"
   letters_list: "Letters list"
@@ -73,3 +75,7 @@ en:
   user_name: 'User login:'
   month_statistics: "Monthly statistics: "
   all: "all:  "
+  statistic_page: "Statistic letters page"
+  email_check_page: "Email check page"
+  statistic: "Statistic"
+  total: "total"
