@@ -1,10 +1,12 @@
 class LettersController < ApplicationController
   before_action :user_letters, only: [:index, :statistic]
+  before_action :all_letters, only: [:graph]
   before_action :set_letter, only: [:show, :update, :edit, :destroy, :completed, :running, :sleeping]
   before_action :new_letter, only: [:new, :create]
   before_action :aasm_transitions, only: [:edit, :update, :completed, :sleeping, :running]
-  before_action :aasm_states, only: [:index, :statistic]
-  before_action :half_year_statistic, only: [:statistic]
+  before_action :aasm_states, only: [:index, :statistic, :graph]
+  before_action :half_year_statistic, only: [:statistic, :graph]
+  before_action :date_range, only: [:statistic, :graph]
   before_action :authenticate_user!
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_letter
@@ -78,7 +80,21 @@ class LettersController < ApplicationController
   end
 
   def statistic
-    @date_range = 5.downto(0).map { |num| l(Time.now.months_ago(num), format: :yyyymm) }
+  end
+
+  def graph
+    months = @date_range.map { |date| date.to_time.strftime("%B") }
+
+    graph_data = @aasm_states.map { |state| @date_range.map { |date| (@half_year_letters[date] || Hash.new(0))[state]} }
+
+    datasets = @aasm_states.map { |state| { label: state,
+      data: graph_data[@aasm_states.index(state)],
+      backgroundColor: Letter::ASM_STATE_COLOR[state],
+      stack: state,
+      borderWidth: 2
+    } }
+
+    render json: { labels: months, datasets: datasets }
   end
 
   private
@@ -104,6 +120,10 @@ class LettersController < ApplicationController
     @letters = current_user.letters
   end
 
+  def all_letters
+    @letters = Letter.all
+  end
+
   def aasm_transitions
     @aasm_state = @letter.aasm.states(:permitted => true).map(&:name)
   end
@@ -121,5 +141,9 @@ class LettersController < ApplicationController
       accum[hash_date].merge!(hash[0][1] => hash[1])
       accum
     end
+  end
+
+  def date_range
+    @date_range = 5.downto(0).map { |num| l(Time.now.months_ago(num), format: :yyyymm) }
   end
 end
