@@ -6,7 +6,6 @@ class LettersController < ApplicationController
   before_action :aasm_transitions, only: [:edit, :update, :completed, :sleeping, :running]
   before_action :aasm_states, only: [:index, :statistic]
   before_action :half_year_statistic, only: [:statistic]
-  before_action :date_range, only: [:statistic]
   before_action :authenticate_user!
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_letter
@@ -80,11 +79,12 @@ class LettersController < ApplicationController
   end
 
   def statistic
+    @date_range = date_range(:yyyymm)
   end
 
   def graph
-    months = 5.downto(0).map { |num| l(Time.now.months_ago(num), format: :month_name) }
-    graph_data = aasm_states.map { |state| date_range.map { |date| (half_year_statistic[date] || Hash.new(0))[state]} }
+    months = date_range(:month_name)
+    graph_data = aasm_states.map { |state| date_range(:yyyymm).map { |date| (half_year_statistic[date] || Hash.new(0))[state]} }
     datasets = aasm_states.map { |state| { label: state,
       data: graph_data[aasm_states.index(state)],
       backgroundColor: Letter::ASM_STATE_COLOR[state],
@@ -127,7 +127,7 @@ class LettersController < ApplicationController
   end
 
   def aasm_states
-    @aasm_states = Letter.new.aasm.states.map(&:name).map { |aasm_state| aasm_state.to_s }
+    @aasm_states ||= Letter.new.aasm.states.map(&:name).map { |aasm_state| aasm_state.to_s }
   end
 
   def half_year_statistic
@@ -142,7 +142,7 @@ class LettersController < ApplicationController
     end
   end
 
-  def date_range
-    @date_range = 5.downto(0).map { |num| l(Time.now.months_ago(num), format: :yyyymm) }
+  def date_range(format)
+    @date_range = 5.downto(0).map { |num| l(Time.now.months_ago(num), format: format) }
   end
 end
