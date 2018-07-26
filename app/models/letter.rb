@@ -1,7 +1,10 @@
 class Letter < ApplicationRecord
   include AASM
-  ASM_STATE_COLOR = { 'new' => 'rgba(169, 171, 48, 0.6)', 'running' => 'rgba(53, 114, 54, 0.6)',
-    'sleeping' => 'rgba(0, 0, 0, 0.6)', 'completed' => 'rgba(171, 48, 48, 0.6)' }
+  YELLOW = 'rgba(169, 171, 48, 0.6)'
+  GREEN = 'rgba(53, 114, 54, 0.6)'
+  GRAY = 'rgba(0, 0, 0, 0.6)'
+  RED = 'rgba(171, 48, 48, 0.6)'
+  ASM_STATE_COLOR = { 'new' => YELLOW, 'running' => GREEN, 'sleeping' => GRAY, 'completed' => RED }
   VALID_EMAIL_REGEX = /\A[\-\+\w.]+@([a-z\d][-a-z\d]*\.)+[a-z]{2,4}\z/i
   before_save :save_email
 

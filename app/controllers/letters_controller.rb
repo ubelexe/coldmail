@@ -4,9 +4,9 @@ class LettersController < ApplicationController
   before_action :set_letter, only: [:show, :update, :edit, :destroy, :completed, :running, :sleeping]
   before_action :new_letter, only: [:new, :create]
   before_action :aasm_transitions, only: [:edit, :update, :completed, :sleeping, :running]
-  before_action :aasm_states, only: [:index, :statistic, :graph]
-  before_action :half_year_statistic, only: [:statistic, :graph]
-  before_action :date_range, only: [:statistic, :graph]
+  before_action :aasm_states, only: [:index, :statistic]
+  before_action :half_year_statistic, only: [:statistic]
+  before_action :date_range, only: [:statistic]
   before_action :authenticate_user!
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_letter
@@ -83,12 +83,10 @@ class LettersController < ApplicationController
   end
 
   def graph
-    months = @date_range.map { |date| date.to_time.strftime("%B") }
-
-    graph_data = @aasm_states.map { |state| @date_range.map { |date| (@half_year_letters[date] || Hash.new(0))[state]} }
-
-    datasets = @aasm_states.map { |state| { label: state,
-      data: graph_data[@aasm_states.index(state)],
+    months = 5.downto(0).map { |num| l(Time.now.months_ago(num), format: :month_name) }
+    graph_data = aasm_states.map { |state| date_range.map { |date| (half_year_statistic[date] || Hash.new(0))[state]} }
+    datasets = aasm_states.map { |state| { label: state,
+      data: graph_data[aasm_states.index(state)],
       backgroundColor: Letter::ASM_STATE_COLOR[state],
       stack: state,
       borderWidth: 2
@@ -133,6 +131,7 @@ class LettersController < ApplicationController
   end
 
   def half_year_statistic
+    return @half_year_letters if @half_year_letters.present?
     @letters = @letters.where('created_at > ?', 5.months.ago.beginning_of_month)
     sql = "TO_CHAR(created_at::timestamp, 'YYYY/MM')"
     @half_year_letters = @letters.group(sql, :aasm_state).count.inject({}) do |accum, hash|
