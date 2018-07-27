@@ -85,3 +85,5 @@ en:
   send: "Send"
   hello: "Hello!"
   letter_email_header: "You have been sent a message from Coldmail"
+  email_send: "Email send"
+  email_sent_message: "Email successfully sent!"

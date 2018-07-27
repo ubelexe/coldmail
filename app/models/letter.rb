@@ -15,6 +15,9 @@ class Letter < ApplicationRecord
 
   scope :search_by_fields, ->(q_string) { where("email LIKE :q OR url_site LIKE :q", q: "%#{q_string}%") }
   scope :state_new, -> { where(aasm_state: 'new') }
+  scope :state_running, -> { running }
+  scope :state_sleeping, -> { sleeping }
+  scope :state_completed, -> { completed }
 
   aasm do
     state :new, initial: true

@@ -24,14 +24,14 @@ ActiveAdmin.register User do
         row :updated_at
       end
 
-      panel "Email send" do
+      panel t(:email_send) do
         render partial: 'form'
       end
     end
 
     member_action :send_email, method: :post do
       UserMailer.send_email(params[:id], params[:message]).deliver_later
-      redirect_to collection_path, notice: "Email successfully sent!"
+      redirect_to collection_path, notice: t(:email_sent_message)
     end
 
 end
