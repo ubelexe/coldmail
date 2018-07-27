@@ -81,3 +81,7 @@ en:
   statistic: "Statistic"
   total: "total"
   letters_graph: "Letters Graph"
+  notification_coldmail: "Notification Coldmail"
+  send: "Send"
+  hello: "Hello!"
+  letter_email_header: "You have been sent a message from Coldmail"
