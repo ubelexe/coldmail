@@ -131,6 +131,7 @@ class LettersController < ApplicationController
   end
 
   def half_year_statistic
+    byebug
     return @half_year_letters if @half_year_letters.present?
     @letters = @letters.where('created_at > ?', 5.months.ago.beginning_of_month)
     sql = "TO_CHAR(created_at::timestamp, 'YYYY/MM')"
@@ -138,7 +139,7 @@ class LettersController < ApplicationController
       hash_date = hash[0][0]
       accum[hash_date] ||= Hash.new(0)
       accum[hash_date].merge!(hash[0][1] => hash[1])
-      accum
+      return accum
     end
   end
 
