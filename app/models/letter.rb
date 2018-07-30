@@ -18,6 +18,7 @@ class Letter < ApplicationRecord
   scope :state_running, -> { running }
   scope :state_sleeping, -> { sleeping }
   scope :state_completed, -> { completed }
+  scope :expired_letters, -> { where('created_at < ? AND aasm_state != ?', 3.month.ago, 'completed') }
 
   aasm do
     state :new, initial: true
