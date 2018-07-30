@@ -1,5 +1,6 @@
 class LettersController < ApplicationController
   before_action :user_letters, only: [:index, :statistic]
+  before_action :all_letters, only: [:graph]
   before_action :set_letter, only: [:show, :update, :edit, :destroy, :completed, :running, :sleeping]
   before_action :new_letter, only: [:new, :create]
   before_action :aasm_transitions, only: [:edit, :update, :completed, :sleeping, :running]
@@ -78,7 +79,20 @@ class LettersController < ApplicationController
   end
 
   def statistic
-    @date_range = 5.downto(0).map { |num| l(Time.now.months_ago(num), format: :yyyymm) }
+    @date_range = date_range(:yyyymm)
+  end
+
+  def graph
+    months = date_range(:month_name)
+    graph_data = aasm_states.map { |state| date_range(:yyyymm).map { |date| (half_year_statistic[date] || Hash.new(0))[state]} }
+    datasets = aasm_states.map { |state| { label: state,
+      data: graph_data[aasm_states.index(state)],
+      backgroundColor: Letter::ASM_STATE_COLOR[state],
+      stack: state,
+      borderWidth: 2
+    } }
+
+    render json: { labels: months, datasets: datasets }
   end
 
   private
@@ -104,15 +118,20 @@ class LettersController < ApplicationController
     @letters = current_user.letters
   end
 
+  def all_letters
+    @letters = Letter.all
+  end
+
   def aasm_transitions
     @aasm_state = @letter.aasm.states(:permitted => true).map(&:name)
   end
 
   def aasm_states
-    @aasm_states = Letter.new.aasm.states.map(&:name).map { |aasm_state| aasm_state.to_s }
+    @aasm_states ||= Letter.new.aasm.states.map(&:name).map { |aasm_state| aasm_state.to_s }
   end
 
   def half_year_statistic
+    return @half_year_letters if @half_year_letters.present?
     @letters = @letters.where('created_at > ?', 5.months.ago.beginning_of_month)
     sql = "TO_CHAR(created_at::timestamp, 'YYYY/MM')"
     @half_year_letters = @letters.group(sql, :aasm_state).count.inject({}) do |accum, hash|
@@ -121,5 +140,9 @@ class LettersController < ApplicationController
       accum[hash_date].merge!(hash[0][1] => hash[1])
       accum
     end
+  end
+
+  def date_range(format)
+    @date_range = 5.downto(0).map { |num| l(Time.now.months_ago(num), format: format) }
   end
 end

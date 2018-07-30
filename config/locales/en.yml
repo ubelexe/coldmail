@@ -41,6 +41,7 @@ en:
       yymmdd: "%F"
       yyyymm: "%Y/%m"
       yyyy: "%Y"
+      month_name: "%B"
 
   hello: "Hello world"
   letters_list: "Letters list"
@@ -79,3 +80,10 @@ en:
   email_check_page: "Email check page"
   statistic: "Statistic"
   total: "total"
+  letters_graph: "Letters Graph"
+  notification_coldmail: "Notification Coldmail"
+  send: "Send"
+  hello: "Hello!"
+  letter_email_header: "You have been sent a message from Coldmail"
+  email_send: "Email send"
+  email_sent_message: "Email successfully sent!"
