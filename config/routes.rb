@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount Coldmail::API => '/api'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   devise_for :users
@@ -14,9 +15,4 @@ Rails.application.routes.draw do
   end
   root 'letters#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  namespace 'api' do
-    namespace 'v1' do
-      resources :letters
-    end
-  end
 end

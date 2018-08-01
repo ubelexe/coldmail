@@ -27,6 +27,7 @@ gem 'aasm'
 gem 'jquery-rails'
 gem 'chart-js-rails'
 gem 'grape'
+gem 'grape_on_rails_routes'
 gem 'dotenv-rails', groups: [:development, :test]
 
 # Use CoffeeScript for .coffee assets and views
