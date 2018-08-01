@@ -111,6 +111,10 @@ GEM
       railties (>= 4.1.0, < 6.0)
       responders
       warden (~> 1.2.3)
+    dotenv (2.5.0)
+    dotenv-rails (2.5.0)
+      dotenv (= 2.5.0)
+      railties (>= 3.2, < 6.0)
     dye (0.1.4)
     equalizer (0.0.11)
     erubi (1.7.1)
@@ -328,6 +332,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   coffee-script
   devise
+  dotenv-rails
   flex-rails
   grape
   jbuilder (~> 2.5)
