@@ -115,7 +115,7 @@ class LettersController < ApplicationController
   end
 
   def user_letters
-    @letters = current_user.letters
+    @letters = current_user.letters if current_user.present?
   end
 
   def all_letters
