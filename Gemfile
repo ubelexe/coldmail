@@ -28,7 +28,6 @@ gem 'jquery-rails'
 gem 'chart-js-rails'
 gem 'grape'
 gem 'grape_on_rails_routes'
-gem 'dotenv-rails', groups: [:development, :test]
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
@@ -53,6 +52,7 @@ gem 'activeadmin'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'dotenv-rails'
 end
 
 group :development do

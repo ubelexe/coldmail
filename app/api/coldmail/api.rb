@@ -1,5 +1,6 @@
 module Coldmail
   class API  < Grape::API
+    rescue_from :all
     include Grape::Extensions::Hash::ParamBuilder
     version 'v1', using: :path, vendor: 'coldmail'
     format :json
@@ -11,18 +12,22 @@ module Coldmail
 
     helpers do
       def authenticated
-        request.headers['Access-Token'] && @user = User.find_by_authentication_token(request.headers['Access-Token'])
+        @user = User.find_by(authentication_token: (request.headers['Access-Token']))
       end
 
       def current_user
         @user
       end
+
+     def letter_params
+       letter_params = declared(params)[:letter]
+       letter_params = letter_params.each { |key,value| letter_params.delete(key) if value.nil? }
+     end
     end
 
     resource :letters do
-      desc 'Returns letters of the current user'
+      desc 'Returns letters for current user'
       get :index do
-        authenticated
         current_user.letters
       end
 
@@ -31,28 +36,23 @@ module Coldmail
         requires :id, type: Integer
       end
       get ':id' do
-        authenticated
         current_user.letters.find(params[:id])
       end
 
       desc 'Create letter'
       params do
         requires :letter, type: Hash do
-          requires :comment
           requires :email
           requires :url_site
+          optional :comment
         end
       end
       post do
-        authenticated
-        byebug
-        { 'declared_params' => declared(params) }
-        current_user.letters.create!(declared(params)[:letter])
+        current_user.letters.create!(letter_params)
       end
 
       desc 'Update letter'
       params do
-        build_with Grape::Extensions::Hash::ParamBuilder
         requires :letter, type: Hash do
           optional :comment
           optional :email
@@ -60,10 +60,6 @@ module Coldmail
         end
       end
       put ':id' do
-        authenticated
-        { 'declared_params' => declared(params) }
-        letter_params = declared(params)[:letter]
-        letter_params = letter_params.each { |key,value| letter_params.delete(key) if value.nil? }
         current_user.letters.find(params[:id]).update(letter_params)
       end
 
@@ -72,7 +68,6 @@ module Coldmail
         requires :id
       end
       delete ':id' do
-        authenticated
         current_user.letters.find(params[:id]).destroy
       end
 
