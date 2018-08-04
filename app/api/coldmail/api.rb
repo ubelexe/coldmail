@@ -4,6 +4,8 @@ module Coldmail
     include Grape::Extensions::Hash::ParamBuilder
     version 'v1', using: :path, vendor: 'coldmail'
     format :json
+    formatter :json, Grape::Formatter::ActiveModelSerializers
+    error_formatter :json, Grape::Formatter::ActiveModelSerializers
     prefix :api
 
     before do

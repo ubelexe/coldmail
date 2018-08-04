@@ -29,6 +29,7 @@ gem 'chart-js-rails'
 gem 'grape'
 gem 'grape_on_rails_routes'
 gem 'active_model_serializers'
+gem 'grape-active_model_serializers'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
