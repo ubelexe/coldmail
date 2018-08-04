@@ -29,6 +29,11 @@ GEM
     active_attr (0.11.0)
       activemodel (>= 3.0.2, < 6.0)
       activesupport (>= 3.0.2, < 6.0)
+    active_model_serializers (0.10.7)
+      actionpack (>= 4.1, < 6)
+      activemodel (>= 4.1, < 6)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activeadmin (1.3.0)
       arbre (>= 1.1.1)
       coffee-rails
@@ -85,6 +90,8 @@ GEM
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
       xpath (~> 3.1)
+    case_transform (0.2)
+      activesupport
     chart-js-rails (0.1.6)
       railties (> 3.1)
     childprocess (0.9.0)
@@ -168,6 +175,7 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
+    jsonapi-renderer (0.2.0)
     kaminari (1.1.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.1.1)
@@ -324,6 +332,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
+  active_model_serializers
   activeadmin
   bootsnap (>= 1.1.0)
   bootstrap (~> 4.1.1)
