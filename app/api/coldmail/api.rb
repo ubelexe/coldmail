@@ -21,10 +21,10 @@ module Coldmail
         @user
       end
 
-     def letter_params
-       letter_params = declared(params)[:letter]
-       letter_params = letter_params.each { |key,value| letter_params.delete(key) if value.nil? }
-     end
+      def letter_params
+        letter_params = declared(params)[:letter]
+        letter_params = letter_params.each { |key,value| letter_params.delete(key) if value.nil? }
+      end
     end
 
     resource :letters do
