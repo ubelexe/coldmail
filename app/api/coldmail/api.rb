@@ -5,7 +5,6 @@ module Coldmail
     version 'v1', using: :path, vendor: 'coldmail'
     format :json
     formatter :json, Grape::Formatter::ActiveModelSerializers
-    error_formatter :json, Grape::Formatter::ActiveModelSerializers
     prefix :api
 
     before do
@@ -65,9 +64,19 @@ module Coldmail
         current_user.letters.find(params[:id]).update(letter_params)
       end
 
+      desc 'Change AASM state for current letter'
+      params do
+        requires :aasm_transition, type: String, values: ['run!', 'sleep!', 'done!']
+      end
+      put 'aasm_transition/:id' do
+        letter = current_user.letters.find(params[:id])
+        letter.send(params[:aasm_transition])
+        return letter
+      end
+
       desc 'Delete letter'
       params do
-        requires :id
+        requires :id, type: Integer
       end
       delete ':id' do
         current_user.letters.find(params[:id]).destroy
