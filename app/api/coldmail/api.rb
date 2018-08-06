@@ -32,6 +32,14 @@ module Coldmail
         current_user.letters
       end
 
+      desc 'Search letter by email'
+      params do
+        optional :q
+      end
+      get :search do
+        Letter.find_by!(email: params[:q])
+      end
+
       desc 'Show letter'
       params do
         requires :id, type: Integer
