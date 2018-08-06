@@ -4,6 +4,7 @@ module Coldmail
     include Grape::Extensions::Hash::ParamBuilder
     version 'v1', using: :path, vendor: 'coldmail'
     format :json
+    formatter :json, Grape::Formatter::ActiveModelSerializers
     prefix :api
 
     before do
@@ -19,16 +20,24 @@ module Coldmail
         @user
       end
 
-     def letter_params
-       letter_params = declared(params)[:letter]
-       letter_params = letter_params.each { |key,value| letter_params.delete(key) if value.nil? }
-     end
+      def letter_params
+        letter_params = declared(params)[:letter]
+        letter_params = letter_params.each { |key,value| letter_params.delete(key) if value.nil? }
+      end
     end
 
     resource :letters do
       desc 'Returns letters for current user'
       get :index do
         current_user.letters
+      end
+
+      desc 'Search letter by email'
+      params do
+        requires :q
+      end
+      get :search do
+        Letter.find_by!(email: params[:q])
       end
 
       desc 'Show letter'
@@ -63,9 +72,19 @@ module Coldmail
         current_user.letters.find(params[:id]).update(letter_params)
       end
 
+      desc 'Change AASM state for current letter'
+      params do
+        requires :aasm_transition, type: String, values: ['run!', 'sleep!', 'done!']
+      end
+      put 'aasm_transition/:id' do
+        letter = current_user.letters.find(params[:id])
+        letter.send(params[:aasm_transition])
+        return letter
+      end
+
       desc 'Delete letter'
       params do
-        requires :id
+        requires :id, type: Integer
       end
       delete ':id' do
         current_user.letters.find(params[:id]).destroy
