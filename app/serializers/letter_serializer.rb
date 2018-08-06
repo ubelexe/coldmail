@@ -3,6 +3,6 @@ class LetterSerializer < ActiveModel::Serializer
   belongs_to :user
 
   def aasm_transitions
-    "#{ object.aasm.states(:permitted => true).map(&:name) }"
+    object.aasm.states(:permitted => true).map(&:name)
   end
 end

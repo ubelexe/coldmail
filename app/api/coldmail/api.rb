@@ -34,7 +34,7 @@ module Coldmail
 
       desc 'Search letter by email'
       params do
-        optional :q
+        requires :q
       end
       get :search do
         Letter.find_by!(email: params[:q])
