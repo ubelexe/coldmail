@@ -1,4 +1,4 @@
-class AddAasmStateToLetters < ActiveRecord::Migration[5.2]
+class AddAasmStateToLetters < ActiveRecord::Migration[5.1]
   def change
     add_column :letters, :aasm_state, :string
   end
